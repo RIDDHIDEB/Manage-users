@@ -11,38 +11,6 @@ function AddUser() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [data, setData] = useState();
-
-  const [newUser, setNewUser] = useState({
-    username: '',
-    fullname: '',
-    email: '',
-  });
-
-  const handleNewUserChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-  };
-
-  const handleAddUser = () => {
-    // Validate the form input here as needed
-    // Add the new user to the data array
-    setData([...data, { ...newUser, id: data.length + 1 }]);
-
-    handleClose();
-
-    setNewUser({
-      username: '',
-      fullname: '',
-      email: '',
-    });
-  };
-
-
-
   return(
     <React.Fragment>
       <Button variant='contained' onClick={handleShow}>Add Users</Button>
@@ -55,26 +23,23 @@ function AddUser() {
           <div className="row">
             <div className="col">
               <div className="form-group" >
-              <TextField name="username" label="Username" variant="outlined" fullWidth margin="normal" value={newUser.username}
-            onChange={handleNewUserChange}/>
+              <TextField name="username" label="username" variant="outlined" fullWidth margin="normal"/>
               </div>
             </div>
             
               <div className="form-group">
-              <TextField name="fullname" label="fullname" variant="outlined" fullWidth margin="normal" value={newUser.fullname}
-            onChange={handleNewUserChange}/>
+              <TextField name="fullname" label="fullname" variant="outlined" fullWidth margin="normal"/>
               </div>
             </div>
 
             <div className="form-group">
-            <TextField name="email" label="email" variant="outlined" fullWidth margin="normal" value={newUser.email}
-            onChange={handleNewUserChange}/>
+            <TextField name="email" label="email" variant="outlined" fullWidth margin="normal"/>
               </div>
             
             </form> 
             </Modal.Body>
             
-                <Button variant="contained" className='modal-button' onClick={handleAddUser}>Add User</Button>
+                <Button variant="contained" className='modal-button'>Add User</Button>
             
         </div>
       </Modal>

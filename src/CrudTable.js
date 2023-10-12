@@ -1,35 +1,54 @@
-import React, { useState } from 'react';
-import { Table, TableBody, TableCell,Typography, TableContainer, TableHead, TableRow, Paper, Button,TextField} from '@mui/material';
+import * as React from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import {
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarExport,
+  GridToolbarDensitySelector,
+} from '@mui/x-data-grid';
+import { Button,Typography, TextField } from '@mui/material';
 import AddUser from './AddUser';
 
-const CrudTable = () => {
-  // Sample data (you can replace this with your own data)
-  const [data, setData] = useState([
-    {id:1, action:'action',username:'riddhi', role: 'react.js ',fullname:'riddhideb chakraborty',email:'rchakraborty@entiovi.com',profileimage:'none',createdat:'none' },
-    {id:2, action:'action',username:'admin1', role: 'node.js ',fullname:'admin1',email:'admin1@entiovi.com',profileimage:'none',createdat:'none'  },
-    {id:3, action:'action',username:'admin2', role: 'SQL ',fullname:'admin2',email:'admin2@entiovi.com',profileimage:'none',createdat:'none'  },
-  ]);
+export default function CrudTable() {
+const columns = [
+  { field: 'action', headerName: 'Action', width: 250 },
+  { field: 'username', headerName: 'Username', width: 250 },
+  { field: 'role', headerName: 'Role', width: 250 },
+  
+  {
+    field: 'fullName',
+    headerName: 'Full Name',
+    width: 280,
+    valueGetter: (params) =>
+      `${params.row.fullname || ''} `
+  },
+  { field: 'email', headerName: 'Email', width: 280 },
+  { field: 'profileimage', headerName: 'Profile Image', width: 250 },
+  { field: 'createdat', headerName: 'Created At', width: 250 },
+];
 
-  const [searchQuery, setSearchQuery] = useState('');
+const rows = [
+  { id: 1, action:'', username: 'riddhi', role: 'React.js', fullname:'Riddhideb Chakraborty', email:'rchakraborty@entiovi.com', profileimage:'NA', createdat:'12/10/2023'},
+  { id: 2, action:'', username: 'admin1', role: 'Node.js', fullname:'admin1', email:'admin1@gmail.com', profileimage:'NA', createdat:'NA'},
+  { id: 3, action:'', username: 'admin2', role: 'Frontend', fullname:'admin2', email:'admin2@gmail.com', profileimage:'NA', createdat:'NA'},
+  { id: 4, action:'', username: 'admin3', role: 'Backend', fullname:'admin3', email:'admin3@gmail.com', profileimage:'NA', createdat:'NA'},
+  { id: 5, action:'', username: 'admin4', role: 'UI/UX', fullname:'admin4', email:'admin4@gmail.com', profileimage:'NA', createdat:'NA'},
+];
 
-  // Function to delete an item
-  const handleDelete = (id) => {
-    const updatedData = data.filter((item) => item.id !== id);
-    setData(updatedData);
-  };
-
-  const filteredData = data.filter((item) =>
-  item.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  item.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  item.fullname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  item.email.toLowerCase().includes(searchQuery.toLowerCase())
-);
+const CustomToolbar=()=> {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
 
   return (
     <>
-    
-
-    <div>
       <div style={{display:"flex",justifyContent:"space-between",backgroundColor:"aliceblue"}}>
       <Typography variant='h3' gutterBottom>Manage Users</Typography>
       <div style={{display:"flex",alignItems:"center",padding:"10px"}}>
@@ -37,57 +56,22 @@ const CrudTable = () => {
       <AddUser/>
       </div>
       </div>
-    <div style={{display:"flex",flexDirection:"row-reverse"}}>
-    
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        style={{ width:"300px",marginRight:"10px" }} 
-      /></div>
-    
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow >
-              <TableCell>Actions</TableCell>
-              <TableCell>Username</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>Fullname</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Profile Image</TableCell>
-              <TableCell>CreatedAt</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>
-                <Button variant='contained' style={{marginRight:"10px"}}>
-                Edit 
-                </Button>
-                <Button  variant='contained' color='error' onClick={() => handleDelete(item.id)}>
-                Delete 
-                </Button>
-                </TableCell>
-                <TableCell>{item.username}</TableCell>
-                <TableCell>{item.role}</TableCell>
-                <TableCell>{item.fullname}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.profileimage}</TableCell>
-                <TableCell>{item.createdat}</TableCell>
-
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+     
       
-      </div> 
-      
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        slots={{
+          toolbar: CustomToolbar,
+        }}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 10]}/>
+    </div>
     </>
   );
-};
-
-export default CrudTable;
+}
