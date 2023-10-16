@@ -4,6 +4,15 @@ import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './AddUser.css';
 import { TextField,Typography } from '@mui/material';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+
+const modalHeaderStyle = {
+  fontSize: '30px',
+  fontWeight: 'bold',
+  color: '#66ccf1',
+};
 
 function AddUser() {
 
@@ -17,7 +26,7 @@ function AddUser() {
 
       <Modal size='md' show={show} onHide={handleClose} centered>
         <div className='modal-style'>
-        <Typography style={{fontSize:'30px',fontWeight:'bold'}}>Add New User</Typography>
+        <Typography style={modalHeaderStyle}>Add New User</Typography>
         <Modal.Body >
         <form className='form' >
           <div className="row">
@@ -28,12 +37,31 @@ function AddUser() {
             </div>
             
               <div className="form-group">
-              <TextField name="fullname" label="fullname" variant="outlined" fullWidth margin="normal"/>
+              <TextField name="firstname" label="firstname" variant="outlined" fullWidth margin="normal"/>
               </div>
             </div>
 
             <div className="form-group">
+              <TextField name="lastname" label="lastname" variant="outlined" fullWidth margin="normal"/>
+              </div>
+            
+
+            <div className="form-group">
             <TextField name="email" label="email" variant="outlined" fullWidth margin="normal"/>
+              </div>
+
+            <div className="form-group">
+            <InputLabel id="demo-simple-select-standard-label">Is Active</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Is Active"
+                fullWidth margin="normal">
+                <MenuItem><em>none</em></MenuItem>
+                <MenuItem value={10}>True</MenuItem>
+                <MenuItem value={20}>False</MenuItem>
+                
+              </Select>
               </div>
             
             </form> 

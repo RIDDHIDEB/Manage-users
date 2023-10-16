@@ -10,13 +10,41 @@ import {
 import { Button,Typography } from '@mui/material';
 import AddUser from './AddUser';
 
+const styles = {
+  customToolbar: {
+    backgroundColor: '#20A0D8',
+  },
+  customToolbarButton: {
+    color: 'white',
+  },
+  manageUsers: {
+    padding: '20px',
+  },
+  manageUsersTitle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  manageUsersTitleTypography: {
+    color: '#66ccf1',
+    fontFamily: "Source Sans Pro",
+  },
+  manageUsersButtons: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px',
+  },
+  manageUsersButton: {
+    marginRight: '10px',
+  },
+};
+
 export default function CrudTable() {
   const [data,setData]= React.useState([
-    { id: 1, action:'', username: 'riddhi', role: 'React.js', fullname:'Riddhideb Chakraborty', email:'rchakraborty@entiovi.com', profileimage:'NA', createdat:'12/10/2023'},
-    { id: 2, action:'', username: 'admin1', role: 'Node.js', fullname:'admin1', email:'admin1@gmail.com', profileimage:'--', createdat:'NA'},
-    { id: 3, action:'', username: 'admin2', role: 'Frontend', fullname:'admin2', email:'admin2@gmail.com', profileimage:'--', createdat:'NA'},
-    { id: 4, action:'', username: 'admin3', role: 'Backend', fullname:'admin3', email:'admin3@gmail.com', profileimage:'--', createdat:'NA'},
-    { id: 5, action:'', username: 'admin4', role: 'UI/UX', fullname:'admin4', email:'admin4@gmail.com', profileimage:'--', createdat:'NA'},
+    { id: 1, action:'', username: 'riddhi', role: 'React.js', firstname:'Riddhideb', lastname:'Chakraborty', email:'rchakraborty@entiovi.com',isactive:'True', createdat:'12/10/2023'},
+    { id: 2, action:'', username: 'admin1', role: 'Node.js', firstname:'admin1', lastname:'nlb', email:'admin1@gmail.com', isactive:'False', createdat:'--'},
+    { id: 3, action:'', username: 'admin2', role: 'Frontend', firstname:'admin2', lastname:'entiovi', email:'admin2@gmail.com',isactive:'False', createdat:'--'},
+    { id: 4, action:'', username: 'admin3', role: 'Backend', firstname:'admin3', lastname:'nlb', email:'admin3@gmail.com',isactive:'False', createdat:'--'},
+    { id: 5, action:'', username: 'admin4', role: 'UI/UX', firstname:'admin4', lastname:'entiovi', email:'admin4@gmail.com', isactive:'True', createdat:'--'},
   ]);
 
   const handleDelete = (id) => {
@@ -25,54 +53,67 @@ export default function CrudTable() {
   };
   
 const columns = [
-  { field: 'action', headerName: 'Action', width: 250, renderCell:(params)=>(
+  
+  {field:'id', headerName:'ID', width: 150},
+  { field: 'username', headerName: 'Username', width: 200 },
+  
+  {
+    field: 'firstname',
+    headerName: 'First Name',
+    width: 200,
+    valueGetter: (params) =>
+      `${params.row.firstname || ''} `
+  },
+  {
+    field: 'lastname',
+    headerName: 'Last Name',
+    width: 200,
+    valueGetter: (params) =>
+      `${params.row.lastname || ''} `
+  },
+  { field: 'role', headerName: 'Role', width: 200 },
+  { field: 'email', headerName: 'Email', width: 250 },
+  
+  { field: 'createdat', headerName: 'Created At', width: 200 },
+  { field: 'action', headerName: 'Action', width: 230, renderCell:(params)=>(
     <div style={{display:"flex",gap:"10px"}}>
     <Button variant='contained'>Edit</Button>
     <Button variant='contained' color='error' onClick={() => handleDelete(params.row.id)}>Delete</Button>
     </div>
   ) },
-  { field: 'username', headerName: 'Username', width: 250 },
-  { field: 'role', headerName: 'Role', width: 250 },
-  
-  {
-    field: 'fullName',
-    headerName: 'Full Name',
-    width: 280,
-    valueGetter: (params) =>
-      `${params.row.fullname || ''} `
-  },
-  { field: 'email', headerName: 'Email', width: 280 },
-  { field: 'profileimage', headerName: 'Profile Image', width: 250 },
-  { field: 'createdat', headerName: 'Created At', width: 250 },
+  { field: 'isactive', headerName: 'Is Active', width: 150 }
 ];
+
 
 
 const CustomToolbar=()=> {
   return (
     <>
-    <GridToolbarContainer style={{backgroundColor:"black"}}>
-      <GridToolbarColumnsButton style={{color:"white"}}/>
-      <GridToolbarFilterButton style={{color:"white"}}/>
-      <GridToolbarDensitySelector style={{color:"white"}}/>
-      <GridToolbarExport style={{color:"white"}}/>
+    <div style={styles.customToolbar}>
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton style={styles.customToolbarButton}/>
+      <GridToolbarFilterButton style={styles.customToolbarButton}/>
+      <GridToolbarDensitySelector style={styles.customToolbarButton}/>
+      <GridToolbarExport style={styles.customToolbarButton}/>
     </GridToolbarContainer>
-    
+    </div>
     </>
   );
 }
 
   return (
     <>
-      <div style={{display:"flex",justifyContent:"space-between",backgroundColor:"aliceblue"}}>
-      <Typography variant='h3' gutterBottom>Manage Users</Typography>
-      <div style={{display:"flex",alignItems:"center",padding:"10px"}}>
-      <Button variant='contained' color='error' style={{marginRight:"10px"}}>User Roles</Button>
+    <div style={styles.manageUsers}>
+      <div style={styles.manageUsersTitle}>
+      <Typography variant='h3' style={styles.manageUsersTitleTypography} gutterBottom>Manage Users</Typography>
+      <div style={styles.manageUsersButtons}>
+      <Button variant='contained' color='error' style={styles.manageUsersButton}>User Roles</Button>
       <AddUser/>
       </div>
       </div>
      
       
-    <div style={{ height: '100vh', width: '100vw' }}>
+    <div style={{ height: '100vh' }}>
       <DataGrid
         rows={data}
         columns={columns}
@@ -86,6 +127,7 @@ const CustomToolbar=()=> {
         }}
         pageSizeOptions={[5, 10]}>
         </DataGrid>
+    </div>
     </div>
     </>
   );
