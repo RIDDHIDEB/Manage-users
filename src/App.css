@@ -4,3 +4,6 @@
   grid-column: 2/3;
   
 }
+body{
+  background: url('./bgImage.png');
+}
