@@ -78,7 +78,7 @@ const columns = [
   { field: 'action', headerName: 'Action', width: 230, renderCell:(params)=>(
     <div style={{display:"flex",gap:"10px"}}>
     <Button variant='contained'>Edit</Button>
-    <Button variant='contained' color='error' onClick={() => handleDelete(params.row.id)}>Delete</Button>
+    <Button variant='contained' color='warning' onClick={() => handleDelete(params.row.id)}>Delete</Button>
     </div>
   ) },
   { field: 'isactive', headerName: 'Is Active', width: 150 }
@@ -107,7 +107,7 @@ const CustomToolbar=()=> {
       <div style={styles.manageUsersTitle}>
       <Typography variant='h3' style={styles.manageUsersTitleTypography} gutterBottom>Manage Users</Typography>
       <div style={styles.manageUsersButtons}>
-      <Button variant='contained' color='error' style={styles.manageUsersButton}>User Roles</Button>
+      <Button variant='contained' color='warning' style={styles.manageUsersButton}>User Roles</Button>
       <AddUser/>
       </div>
       </div>
